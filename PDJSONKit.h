@@ -92,8 +92,8 @@ typedef unsigned int   NSUInteger;
 #endif // NSINTEGER_DEFINED
 
 
-#ifndef _JSONKIT_H_
-#define _JSONKIT_H_
+#ifndef _PDJSONKIT_H_
+#define _PDJSONKIT_H_
 
 #if defined(__GNUC__) && (__GNUC__ >= 4) && defined(__APPLE_CC__) && (__APPLE_CC__ >= 5465)
 #define JK_DEPRECATED_ATTRIBUTE __attribute__((deprecated))
@@ -101,10 +101,10 @@ typedef unsigned int   NSUInteger;
 #define JK_DEPRECATED_ATTRIBUTE
 #endif
   
-#define JSONKIT_VERSION_MAJOR 1
-#define JSONKIT_VERSION_MINOR 4
+#define PD_JSONKIT_VERSION_MAJOR 1
+#define PD_JSONKIT_VERSION_MINOR 4
 
-typedef NSUInteger JKFlags;
+typedef NSUInteger PDJKFlags;
 
 /*
   JKParseOptionComments        : Allow C style // and /_* ... *_/ (without a _, obviously) comments in JSON.
@@ -123,7 +123,7 @@ enum {
   JKParseOptionPermitTextAfterValidJSON = (1 << 3),
   JKParseOptionValidFlags               = (JKParseOptionComments | JKParseOptionUnicodeNewlines | JKParseOptionLooseUnicode | JKParseOptionPermitTextAfterValidJSON),
 };
-typedef JKFlags JKParseOptionFlags;
+typedef PDJKFlags PDJKParseOptionFlags;
 
 enum {
   JKSerializeOptionNone                 = 0,
@@ -132,20 +132,20 @@ enum {
   JKSerializeOptionEscapeForwardSlashes = (1 << 4),
   JKSerializeOptionValidFlags           = (JKSerializeOptionPretty | JKSerializeOptionEscapeUnicode | JKSerializeOptionEscapeForwardSlashes),
 };
-typedef JKFlags JKSerializeOptionFlags;
+typedef PDJKFlags PDJKSerializeOptionFlags;
 
 #ifdef    __OBJC__
 
-typedef struct JKParseState JKParseState; // Opaque internal, private type.
+typedef struct PDJKParseState PDJKParseState; // Opaque internal, private type.
 
-// As a general rule of thumb, if you use a method that doesn't accept a JKParseOptionFlags argument, it defaults to JKParseOptionStrict
+// As a general rule of thumb, if you use a method that doesn't accept a PDJKParseOptionFlags argument, it defaults to JKParseOptionStrict
 
-@interface JSONDecoder : NSObject {
-  JKParseState *parseState;
+@interface PDJSONDecoder : NSObject {
+  PDJKParseState *parseState;
 }
 + (id)decoder;
-+ (id)decoderWithParseOptions:(JKParseOptionFlags)parseOptionFlags;
-- (id)initWithParseOptions:(JKParseOptionFlags)parseOptionFlags;
++ (id)decoderWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)initWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
 - (void)clearCache;
 
 // The parse... methods were deprecated in v1.4 in favor of the v1.4 objectWith... methods.
@@ -175,68 +175,68 @@ typedef struct JKParseState JKParseState; // Opaque internal, private type.
 #pragma mark Deserializing methods
 ////////////
 
-@interface NSString (JSONKitDeserializing)
+@interface NSString (PDJSONKitDeserializing)
 - (id)objectFromJSONString;
-- (id)objectFromJSONStringWithParseOptions:(JKParseOptionFlags)parseOptionFlags;
-- (id)objectFromJSONStringWithParseOptions:(JKParseOptionFlags)parseOptionFlags error:(NSError **)error;
+- (id)objectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)objectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
 - (id)mutableObjectFromJSONString;
-- (id)mutableObjectFromJSONStringWithParseOptions:(JKParseOptionFlags)parseOptionFlags;
-- (id)mutableObjectFromJSONStringWithParseOptions:(JKParseOptionFlags)parseOptionFlags error:(NSError **)error;
+- (id)mutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)mutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
 @end
 
-@interface NSData (JSONKitDeserializing)
+@interface NSData (PDJSONKitDeserializing)
 // The NSData MUST be UTF8 encoded JSON.
 - (id)objectFromJSONData;
-- (id)objectFromJSONDataWithParseOptions:(JKParseOptionFlags)parseOptionFlags;
-- (id)objectFromJSONDataWithParseOptions:(JKParseOptionFlags)parseOptionFlags error:(NSError **)error;
+- (id)objectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)objectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
 - (id)mutableObjectFromJSONData;
-- (id)mutableObjectFromJSONDataWithParseOptions:(JKParseOptionFlags)parseOptionFlags;
-- (id)mutableObjectFromJSONDataWithParseOptions:(JKParseOptionFlags)parseOptionFlags error:(NSError **)error;
+- (id)mutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)mutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
 @end
 
 ////////////
 #pragma mark Serializing methods
 ////////////
   
-@interface NSString (JSONKitSerializing)
+@interface NSString (PDJSONKitSerializing)
 // Convenience methods for those that need to serialize the receiving NSString (i.e., instead of having to serialize a NSArray with a single NSString, you can "serialize to JSON" just the NSString).
 // Normally, a string that is serialized to JSON has quotation marks surrounding it, which you may or may not want when serializing a single string, and can be controlled with includeQuotes:
 // includeQuotes:YES `a "test"...` -> `"a \"test\"..."`
 // includeQuotes:NO  `a "test"...` -> `a \"test\"...`
 - (NSData *)JSONData;     // Invokes JSONDataWithOptions:JKSerializeOptionNone   includeQuotes:YES
-- (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error;
+- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error;
 - (NSString *)JSONString; // Invokes JSONStringWithOptions:JKSerializeOptionNone includeQuotes:YES
-- (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error;
+- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error;
 @end
 
-@interface NSArray (JSONKitSerializing)
+@interface NSArray (PDJSONKitSerializing)
 - (NSData *)JSONData;
-- (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions error:(NSError **)error;
-- (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
+- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
+- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
 - (NSString *)JSONString;
-- (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions error:(NSError **)error;
-- (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
+- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
+- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
 @end
 
-@interface NSDictionary (JSONKitSerializing)
+@interface NSDictionary (PDJSONKitSerializing)
 - (NSData *)JSONData;
-- (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions error:(NSError **)error;
-- (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
+- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
+- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
 - (NSString *)JSONString;
-- (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions error:(NSError **)error;
-- (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
+- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
+- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
 @end
 
 #ifdef __BLOCKS__
 
-@interface NSArray (JSONKitSerializingBlockAdditions)
-- (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
-- (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
+@interface NSArray (PDJSONKitSerializingBlockAdditions)
+- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
+- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
 @end
 
-@interface NSDictionary (JSONKitSerializingBlockAdditions)
-- (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
-- (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
+@interface NSDictionary (PDJSONKitSerializingBlockAdditions)
+- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
+- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
 @end
   
 #endif
@@ -244,7 +244,7 @@ typedef struct JKParseState JKParseState; // Opaque internal, private type.
 
 #endif // __OBJC__
 
-#endif // _JSONKIT_H_
+#endif // _PDJSONKIT_H_
 
 #ifdef __cplusplus
 }  // extern "C"

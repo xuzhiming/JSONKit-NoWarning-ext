@@ -7,6 +7,6 @@ Pod::Spec.new do |s|
   s.author   = 'John Engelhart'
   s.source   = { :git => 'https://github.com/xuzhiming/JSONKit-NoWarning-ext.git', :tag => s.version.to_s }
 
-  s.source_files = 'JSONKit.*'
+  s.source_files = 'PDJSONKit.*'
   s.requires_arc = false
 end
