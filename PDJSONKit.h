@@ -176,22 +176,22 @@ typedef struct PDJKParseState PDJKParseState; // Opaque internal, private type.
 ////////////
 
 @interface NSString (PDJSONKitDeserializing)
-- (id)objectFromJSONString;
-- (id)objectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
-- (id)objectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
-- (id)mutableObjectFromJSONString;
-- (id)mutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
-- (id)mutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
+- (id)pdobjectFromJSONString;
+- (id)pdobjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)pdobjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
+- (id)pdmutableObjectFromJSONString;
+- (id)pdmutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)pdmutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
 @end
 
 @interface NSData (PDJSONKitDeserializing)
 // The NSData MUST be UTF8 encoded JSON.
-- (id)objectFromJSONData;
-- (id)objectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
-- (id)objectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
-- (id)mutableObjectFromJSONData;
-- (id)mutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
-- (id)mutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
+- (id)pdobjectFromJSONData;
+- (id)pdobjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)pdobjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
+- (id)pdmutableObjectFromJSONData;
+- (id)pdmutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags;
+- (id)pdmutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error;
 @end
 
 ////////////
@@ -203,40 +203,40 @@ typedef struct PDJKParseState PDJKParseState; // Opaque internal, private type.
 // Normally, a string that is serialized to JSON has quotation marks surrounding it, which you may or may not want when serializing a single string, and can be controlled with includeQuotes:
 // includeQuotes:YES `a "test"...` -> `"a \"test\"..."`
 // includeQuotes:NO  `a "test"...` -> `a \"test\"...`
-- (NSData *)JSONData;     // Invokes JSONDataWithOptions:JKSerializeOptionNone   includeQuotes:YES
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error;
-- (NSString *)JSONString; // Invokes JSONStringWithOptions:JKSerializeOptionNone includeQuotes:YES
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error;
+- (NSData *)pdJSONData;     // Invokes pdJSONDataWithOptions:JKSerializeOptionNone   includeQuotes:YES
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error;
+- (NSString *)pdJSONString; // Invokes pdJSONStringWithOptions:JKSerializeOptionNone includeQuotes:YES
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error;
 @end
 
 @interface NSArray (PDJSONKitSerializing)
-- (NSData *)JSONData;
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
-- (NSString *)JSONString;
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
+- (NSData *)pdJSONData;
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
+- (NSString *)pdJSONString;
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
 @end
 
 @interface NSDictionary (PDJSONKitSerializing)
-- (NSData *)JSONData;
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
-- (NSString *)JSONString;
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
+- (NSData *)pdJSONData;
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
+- (NSString *)pdJSONString;
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error;
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
 @end
 
 #ifdef __BLOCKS__
 
 @interface NSArray (PDJSONKitSerializingBlockAdditions)
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
 @end
 
 @interface NSDictionary (PDJSONKitSerializingBlockAdditions)
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
 @end
   
 #endif

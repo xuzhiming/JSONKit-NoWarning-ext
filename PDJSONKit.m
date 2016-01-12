@@ -2286,7 +2286,7 @@ static id _JKParseUTF8String(PDJKParseState *parseState, BOOL mutableCollections
 /*
  The NSString and NSData convenience methods need a little bit of explanation.
  
- Prior to JSONKit v1.4, the NSString -objectFromJSONStringWithParseOptions:error: method looked like
+ Prior to JSONKit v1.4, the NSString -pdobjectFromJSONStringWithParseOptions:error: method looked like
  
  const unsigned char *utf8String = (const unsigned char *)[self UTF8String];
  if(utf8String == NULL) { return(NULL); }
@@ -2345,33 +2345,33 @@ exitNow:
   return(returnObject);
 }
 
-- (id)objectFromJSONString
+- (id)pdobjectFromJSONString
 {
-  return([self objectFromJSONStringWithParseOptions:JKParseOptionStrict error:NULL]);
+  return([self pdobjectFromJSONStringWithParseOptions:JKParseOptionStrict error:NULL]);
 }
 
-- (id)objectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags
+- (id)pdobjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags
 {
-  return([self objectFromJSONStringWithParseOptions:parseOptionFlags error:NULL]);
+  return([self pdobjectFromJSONStringWithParseOptions:parseOptionFlags error:NULL]);
 }
 
-- (id)objectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error
+- (id)pdobjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error
 {
   return(_NSStringObjectFromJSONString(self, parseOptionFlags, error, NO));
 }
 
 
-- (id)mutableObjectFromJSONString
+- (id)pdmutableObjectFromJSONString
 {
-  return([self mutableObjectFromJSONStringWithParseOptions:JKParseOptionStrict error:NULL]);
+  return([self pdmutableObjectFromJSONStringWithParseOptions:JKParseOptionStrict error:NULL]);
 }
 
-- (id)mutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags
+- (id)pdmutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags
 {
-  return([self mutableObjectFromJSONStringWithParseOptions:parseOptionFlags error:NULL]);
+  return([self pdmutableObjectFromJSONStringWithParseOptions:parseOptionFlags error:NULL]);
 }
 
-- (id)mutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error
+- (id)pdmutableObjectFromJSONStringWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error
 {
   return(_NSStringObjectFromJSONString(self, parseOptionFlags, error, YES));
 }
@@ -2380,17 +2380,17 @@ exitNow:
 
 @implementation NSData (PDJSONKitDeserializing)
 
-- (id)objectFromJSONData
+- (id)pdobjectFromJSONData
 {
-  return([self objectFromJSONDataWithParseOptions:JKParseOptionStrict error:NULL]);
+  return([self pdobjectFromJSONDataWithParseOptions:JKParseOptionStrict error:NULL]);
 }
 
-- (id)objectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags
+- (id)pdobjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags
 {
-  return([self objectFromJSONDataWithParseOptions:parseOptionFlags error:NULL]);
+  return([self pdobjectFromJSONDataWithParseOptions:parseOptionFlags error:NULL]);
 }
 
-- (id)objectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error
+- (id)pdobjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error
 {
   PDJSONDecoder *decoder = NULL;
   id returnObject = [(decoder = [PDJSONDecoder decoderWithParseOptions:parseOptionFlags]) objectWithData:self error:error];
@@ -2398,17 +2398,17 @@ exitNow:
   return(returnObject);
 }
 
-- (id)mutableObjectFromJSONData
+- (id)pdmutableObjectFromJSONData
 {
-  return([self mutableObjectFromJSONDataWithParseOptions:JKParseOptionStrict error:NULL]);
+  return([self pdmutableObjectFromJSONDataWithParseOptions:JKParseOptionStrict error:NULL]);
 }
 
-- (id)mutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags
+- (id)pdmutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags
 {
-  return([self mutableObjectFromJSONDataWithParseOptions:parseOptionFlags error:NULL]);
+  return([self pdmutableObjectFromJSONDataWithParseOptions:parseOptionFlags error:NULL]);
 }
 
-- (id)mutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error
+- (id)pdmutableObjectFromJSONDataWithParseOptions:(PDJKParseOptionFlags)parseOptionFlags error:(NSError **)error
 {
   PDJSONDecoder *decoder = NULL;
   id returnObject = [(decoder = [PDJSONDecoder decoderWithParseOptions:parseOptionFlags]) mutableObjectWithData:self error:error];
@@ -2930,24 +2930,24 @@ errorExit:
 
 // NSData returning methods...
 
-- (NSData *)JSONData
+- (NSData *)pdJSONData
 {
-  return([self JSONDataWithOptions:JKSerializeOptionNone includeQuotes:YES error:NULL]);
+  return([self pdJSONDataWithOptions:JKSerializeOptionNone includeQuotes:YES error:NULL]);
 }
 
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsData | ((includeQuotes == NO) ? JKEncodeOptionStringObjTrimQuotes : 0UL) | JKEncodeOptionStringObj) block:NULL delegate:NULL selector:NULL error:error]);
 }
 
 // NSString returning methods...
 
-- (NSString *)JSONString
+- (NSString *)pdJSONString
 {
-  return([self JSONStringWithOptions:JKSerializeOptionNone includeQuotes:YES error:NULL]);
+  return([self pdJSONStringWithOptions:JKSerializeOptionNone includeQuotes:YES error:NULL]);
 }
 
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions includeQuotes:(BOOL)includeQuotes error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsString | ((includeQuotes == NO) ? JKEncodeOptionStringObjTrimQuotes : 0UL) | JKEncodeOptionStringObj) block:NULL delegate:NULL selector:NULL error:error]);
 }
@@ -2958,34 +2958,34 @@ errorExit:
 
 // NSData returning methods...
 
-- (NSData *)JSONData
+- (NSData *)pdJSONData
 {
   return([JKSerializer serializeObject:self options:JKSerializeOptionNone encodeOption:(JKEncodeOptionAsData | JKEncodeOptionCollectionObj) block:NULL delegate:NULL selector:NULL error:NULL]);
 }
 
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsData | JKEncodeOptionCollectionObj) block:NULL delegate:NULL selector:NULL error:error]);
 }
 
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsData | JKEncodeOptionCollectionObj) block:NULL delegate:delegate selector:selector error:error]);
 }
 
 // NSString returning methods...
 
-- (NSString *)JSONString
+- (NSString *)pdJSONString
 {
   return([JKSerializer serializeObject:self options:JKSerializeOptionNone encodeOption:(JKEncodeOptionAsString | JKEncodeOptionCollectionObj) block:NULL delegate:NULL selector:NULL error:NULL]);
 }
 
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsString | JKEncodeOptionCollectionObj) block:NULL delegate:NULL selector:NULL error:error]);
 }
 
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsString | JKEncodeOptionCollectionObj) block:NULL delegate:delegate selector:selector error:error]);
 }
@@ -2996,34 +2996,34 @@ errorExit:
 
 // NSData returning methods...
 
-- (NSData *)JSONData
+- (NSData *)pdJSONData
 {
   return([JKSerializer serializeObject:self options:JKSerializeOptionNone encodeOption:(JKEncodeOptionAsData | JKEncodeOptionCollectionObj) block:NULL delegate:NULL selector:NULL error:NULL]);
 }
 
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsData | JKEncodeOptionCollectionObj) block:NULL delegate:NULL selector:NULL error:error]);
 }
 
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsData | JKEncodeOptionCollectionObj) block:NULL delegate:delegate selector:selector error:error]);
 }
 
 // NSString returning methods...
 
-- (NSString *)JSONString
+- (NSString *)pdJSONString
 {
   return([JKSerializer serializeObject:self options:JKSerializeOptionNone encodeOption:(JKEncodeOptionAsString | JKEncodeOptionCollectionObj) block:NULL delegate:NULL selector:NULL error:NULL]);
 }
 
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsString | JKEncodeOptionCollectionObj) block:NULL delegate:NULL selector:NULL error:error]);
 }
 
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsString | JKEncodeOptionCollectionObj) block:NULL delegate:delegate selector:selector error:error]);
 }
@@ -3035,12 +3035,12 @@ errorExit:
 
 @implementation NSArray (PDJSONKitSerializingBlockAdditions)
 
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsData | JKEncodeOptionCollectionObj) block:block delegate:NULL selector:NULL error:error]);
 }
 
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsString | JKEncodeOptionCollectionObj) block:block delegate:NULL selector:NULL error:error]);
 }
@@ -3049,12 +3049,12 @@ errorExit:
 
 @implementation NSDictionary (PDJSONKitSerializingBlockAdditions)
 
-- (NSData *)JSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error
+- (NSData *)pdJSONDataWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsData | JKEncodeOptionCollectionObj) block:block delegate:NULL selector:NULL error:error]);
 }
 
-- (NSString *)JSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error
+- (NSString *)pdJSONStringWithOptions:(PDJKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error
 {
   return([JKSerializer serializeObject:self options:serializeOptions encodeOption:(JKEncodeOptionAsString | JKEncodeOptionCollectionObj) block:block delegate:NULL selector:NULL error:error]);
 }
